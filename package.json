@@ -1,0 +1,25 @@
+{
+  "name": "node-kotlin",
+  "version": "1.0.0",
+  "description": "a wrapper around the kotlin javascript compiler",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "kotlin",
+    "kotlinc",
+    "kotlinjs"
+  ],
+  "author": "Michael Johansen",
+  "license": "MIT",
+  "dependencies": {
+    "glob": "^7.0.3",
+    "q": "^1.4.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "rimraf": "^2.5.2"
+  }
+}
