@@ -1,6 +1,10 @@
 {
   "name": "node-kotlin",
   "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/michael-johansen/node-kotlin.git"
+  },
   "description": "a wrapper around the kotlin javascript compiler",
   "main": "index.js",
   "scripts": {
