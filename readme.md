@@ -1,6 +1,6 @@
 node-kotlin
 ---
-A wrapper around the kotlin compiler. Is now configured use kotlin2js functionality and future releases will add functionality for general usage of the compiler.
+A wrapper around the kotlin compiler. Is now configured to use kotlin2js, and future releases will add functionality for general usage of the compiler.
 
 
 Usage:
