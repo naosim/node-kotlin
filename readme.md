@@ -8,8 +8,11 @@ Usage:
 var kotlin = require("node-kotlin");
 
 kotlin({
-  src: "src/**/*.kt",
-  out: "out"
+  src: "src/**/*.kt" || ["src/**/*.kt", "gen-src/**/*.kt"],
+  out: "out", // default: "out"
+  sourceMaps: true, // default: false
+  verbose: true, // default: false
+  metaInfo: false // default: true
 });
 ```
 

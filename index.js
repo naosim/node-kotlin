@@ -25,14 +25,21 @@ const flatten = (elementsLists) => elementsLists.reduce((aggregate, elements) =>
   []
 );
 
-const compile = function (outDir, files, compileTask) {
-  exec([
-      isWin ? "kotlinc\\bin\\kotlinc-js.bat" : ". ./kotlinc/bin/kotlinc-js",
-      "-output " + outDir + "/app.js",
-      "-meta-info",
-      // "-source-map",
-      files.join(" ")
-    ].join(" "),
+const compile = function (settings, files, compileTask) {
+  const execArguments = [];
+  if (isWin) {
+    execArguments.push(`${__dirname}\\kotlinc\\bin\\kotlinc-js.bat`);
+  } else {
+    execArguments.push(`. ${__dirname}/kotlinc/bin/kotlinc-js`);
+  }
+  execArguments.push("-output " + settings.outDir + "/app.js");
+  if (settings.metaInfo) execArguments.push("-meta-info");
+  if (settings.sourceMaps) execArguments.push("-source-map");
+  if (settings.verbose) execArguments.push("-verbose");
+  execArguments.push(files.join(" "));
+
+  exec(
+    execArguments.join(" "),
     (err, stdout, stderr) => {
       if (stdout) {
         console.log("stdout", stdout);
@@ -46,11 +53,17 @@ const compile = function (outDir, files, compileTask) {
 };
 
 const kotlin = (options) => {
-  const src = Array.isArray(options.src) ? options.src : [options.src];
-  const outDir = options.out || "out";
+  const settings = {
+    src: Array.isArray(options.src) ? options.src : [options.src],
+    outDir: options.out || "out",
+    sourceMaps: options.sourceMaps || false,
+    verbose: options.verbose || false,
+    metaInfo: options.metaInfo == undefined ? true : options.metaInfo
+  };
 
   const compileTask = q.defer();
-  resolveFilenames(src).then(files=> compile(outDir, files, compileTask));
+  resolveFilenames(settings.src)
+    .then(files=> compile(settings, files, compileTask));
   return compileTask.promise;
 };
 
