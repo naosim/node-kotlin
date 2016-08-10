@@ -102,7 +102,9 @@ const compile = (settings,
         if (settings.exportKotlinJs) {
           exportKotlinJs(settings)
         }
-        generateOutputZip(settings, task.resolve);
+        if (settings.exportZip) {
+          generateOutputZip(settings, task.resolve);
+        } else task.resolve();
       }
     );
   } catch (e) {
@@ -152,6 +154,7 @@ const kotlin = (options) => {
     libraries: Array.isArray(options.libraries) ? options.libraries : [],
     outDir: options.out || "out",
     exportKotlinJs: options.hasOwnProperty("exportKotlinJs") ? options.exportKotlinJs : false,
+    exportZip: options.hasOwnProperty("exportZip") ? options.exportZip : true,
     moduleName: options.moduleName || "app",
     sourceMaps: options.sourceMaps || false,
     verbose: options.verbose || false,
