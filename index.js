@@ -102,9 +102,10 @@ const compile = (settings,
         if (settings.exportKotlinJs) {
           exportKotlinJs(settings)
         }
-        if (settings.exportZip) {
+
+        if(settings.exportZip) {
           generateOutputZip(settings, task.resolve);
-        } else task.resolve();
+        }
       }
     );
   } catch (e) {
@@ -115,7 +116,8 @@ const compile = (settings,
 };
 
 const exportKotlinJs = (settings) => {
-  const zip = new AdmZip(`${__dirname}/kotlinc/lib/kotlin-jslib.jar`);
+
+  const zip = new AdmZip(settings.kotlinc.kotlinJslib);
   const entry = zip.getEntries().find(entry => entry.entryName === "kotlin.js");
 
   fs.writeFileSync(
@@ -158,7 +160,12 @@ const kotlin = (options) => {
     moduleName: options.moduleName || "app",
     sourceMaps: options.sourceMaps || false,
     verbose: options.verbose || false,
-    metaInfo: options.metaInfo == undefined ? true : options.metaInfo
+    metaInfo: options.metaInfo == undefined ? true : options.metaInfo,
+    kotlinc: {
+      kotlinJs: options.kotlinc && options.kotlinc.kotlinJs ? `. ${options.kotlinc.kotlinJs}`  : `. ${__dirname}/kotlinc/bin/kotlinc-js`,
+      kotlinJslib: options.kotlinc && options.kotlinc.kotlinJslib ? options.kotlinc.kotlinJslib : `${__dirname}/kotlinc/lib/kotlin-jslib.jar`,
+    }
+
   };
 
   return q.all([
